@@ -82,7 +82,7 @@ function MyWorkspaces() {
                             {workspace.partner?.displayName ||
                             workspace.partner?.fullName ||
                             workspace.partner?.name ||
-                            "Learning Workspace"}
+                            "Deleted User"}
                             </h2>
 
                             <p className="mt-2 text-slate-300">

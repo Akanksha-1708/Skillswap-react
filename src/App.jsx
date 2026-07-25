@@ -21,6 +21,7 @@ import MyWorkspaces from "./pages/MyWorkspaces/MyWorkspaces";
 import SentRequests from "@/pages/SentRequests/SentRequests";
 import LearningWorkspace from "@/pages/LearningWorkspace/LearningWorkspace";
 import AIMatches from "./pages/AIMatches/AIMatches";
+import SettingsPage from "./pages/Settings/Settings";
 function App() {
   return (
     <BrowserRouter>
@@ -89,7 +90,14 @@ function App() {
               <LearningWorkspace/>
             </ProtectedRoute>
           }/>
-        </Route>
+
+          <Route 
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <SettingsPage/>
+            </ProtectedRoute>
+          }/>
 
         <Route
         path="/my-workspaces"
@@ -107,7 +115,8 @@ function App() {
             <AIMatches/>
           </ProtectedRoute>
         }/>
-
+        
+        </Route>
       </Routes>
     </BrowserRouter>
   );

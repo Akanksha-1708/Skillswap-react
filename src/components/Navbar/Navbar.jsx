@@ -35,16 +35,13 @@ function Navbar() {
     <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#081E4C]/95 backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
 
-        {/* Logo */}
         <NavLink
           to="/"
           onClick={() => setIsMenuOpen(false)}
-          className="text-3xl font-extrabold tracking-tight text-blue-400"
-        >
+          className="text-3xl font-extrabold tracking-tight text-blue-400">
           SkillSwap
         </NavLink>
 
-        {/* Desktop Navigation */}
         <ul className="hidden items-center gap-8 text-lg font-medium md:flex">
 
           {navLinks.map((link) => (
@@ -56,8 +53,7 @@ function Navbar() {
                   isActive
                     ? "text-blue-400 transition duration-300"
                     : "text-white transition duration-300 hover:text-blue-400"
-                }
-              >
+                }>
                 {link.name}
               </NavLink>
             </li>
@@ -72,8 +68,7 @@ function Navbar() {
                     isActive
                       ? "text-blue-400 transition duration-300"
                       : "text-white transition duration-300 hover:text-blue-400"
-                  }
-                >
+                  }>
                   Dashboard
                 </NavLink>
               </li>
@@ -85,8 +80,7 @@ function Navbar() {
                     isActive
                       ? "text-blue-400 transition duration-300"
                       : "text-white transition duration-300 hover:text-blue-400"
-                  }
-                >
+                  }>
                   My Workspaces
                 </NavLink>
               </li>
@@ -94,11 +88,21 @@ function Navbar() {
               <li>
                 <NotificationBell />
               </li>
+              <li>
+                <NavLink
+                to="/settings"
+                className={({isActive})=>
+                isActive
+                ?"text-blue-400 transition duration-300"
+                :"text-white transition duration-300 hover:text-blue-400"
+                }>
+                Settings
+              </NavLink>
+              </li>
 
               <Button
                 onClick={handleLogout}
-                className="h-12 rounded-xl bg-red-500 px-7 text-base font-semibold hover:bg-red-600"
-              >
+                className="h-12 rounded-xl bg-red-500 px-7 text-base font-semibold hover:bg-red-600">
                 Logout
               </Button>
             </>
@@ -107,16 +111,14 @@ function Navbar() {
               <li>
                 <NavLink
                   to="/login"
-                  className="text-white transition duration-300 hover:text-blue-400"
-                >
+                  className="text-white transition duration-300 hover:text-blue-400">
                   Login
                 </NavLink>
               </li>
 
               <Button
                 asChild
-                className="h-12 rounded-xl bg-blue-500 px-7 text-base font-semibold hover:bg-blue-600"
-              >
+                className="h-12 rounded-xl bg-blue-500 px-7 text-base font-semibold hover:bg-blue-600">
                 <NavLink to="/signup">
                   Sign Up
                 </NavLink>
@@ -126,18 +128,15 @@ function Navbar() {
 
         </ul>
 
-        {/* Mobile Menu Button */}
         <button
           type="button"
           className="text-white md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
+          onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
 
       </div>
 
-      {/* Mobile Navigation */}
       {isMenuOpen && (
         <div className="space-y-5 border-t border-white/10 bg-[#081E4C] px-6 py-6 md:hidden">
 
@@ -151,8 +150,7 @@ function Navbar() {
                 isActive
                   ? "block text-blue-400 transition duration-300"
                   : "block text-white transition duration-300 hover:text-blue-400"
-              }
-            >
+              }>
               {link.name}
             </NavLink>
           ))}
@@ -166,8 +164,7 @@ function Navbar() {
                   isActive
                     ? "block text-blue-400"
                     : "block text-white hover:text-blue-400"
-                }
-              >
+                }>
                 Dashboard
               </NavLink>
 
@@ -178,17 +175,24 @@ function Navbar() {
                   isActive
                     ? "block text-blue-400"
                     : "block text-white hover:text-blue-400"
-                }
-              >
+                }>
                 My Workspaces
               </NavLink>
 
               <NotificationBell />
+              <NavLink
+              to="/settings"
+              onClick={()=>setIsMenuOpen(false)}
+              className={({isActive})=>
+              isActive
+              ?"block text-blue-400"
+              :"block text-white hover:text-blue-400"}>
+                Settings
+              </NavLink>
 
               <Button
                 onClick={handleLogout}
-                className="h-12 w-full rounded-xl bg-red-500 text-base font-semibold hover:bg-red-600"
-              >
+                className="h-12 w-full rounded-xl bg-red-500 text-base font-semibold hover:bg-red-600">
                 Logout
               </Button>
             </>
@@ -197,19 +201,16 @@ function Navbar() {
               <NavLink
                 to="/login"
                 onClick={() => setIsMenuOpen(false)}
-                className="block text-white hover:text-blue-400"
-              >
+                className="block text-white hover:text-blue-400">
                 Login
               </NavLink>
 
               <Button
                 asChild
-                className="h-12 w-full rounded-xl bg-blue-500 text-base font-semibold hover:bg-blue-600"
-              >
+                className="h-12 w-full rounded-xl bg-blue-500 text-base font-semibold hover:bg-blue-600">
                 <NavLink
                   to="/signup"
-                  onClick={() => setIsMenuOpen(false)}
-                >
+                  onClick={() => setIsMenuOpen(false)}>
                   Sign Up
                 </NavLink>
               </Button>

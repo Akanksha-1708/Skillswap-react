@@ -20,6 +20,7 @@ import Requests from "@/pages/Requests/Requests";
 import MyWorkspaces from "./pages/MyWorkspaces/MyWorkspaces";
 import SentRequests from "@/pages/SentRequests/SentRequests";
 import LearningWorkspace from "@/pages/LearningWorkspace/LearningWorkspace";
+import AIMatches from "./pages/AIMatches/AIMatches";
 function App() {
   return (
     <BrowserRouter>
@@ -98,6 +99,14 @@ function App() {
         </ProtectedRoute>
         }
         />
+
+        <Route 
+        path="/ai-matches"
+        element={
+          <ProtectedRoute>
+            <AIMatches/>
+          </ProtectedRoute>
+        }/>
 
       </Routes>
     </BrowserRouter>

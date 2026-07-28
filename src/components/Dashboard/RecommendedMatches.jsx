@@ -1,76 +1,47 @@
 import { Button } from "@/components/ui/button";
-
-const matches = [
-  {
-    id: 1,
-    name: "Rahul Sharma",
-    teaches: "React",
-    wants: "Python",
-  },
-  {
-    id: 2,
-    name: "Priya Singh",
-    teaches: "UI/UX",
-    wants: "JavaScript",
-  },
-  {
-    id: 3,
-    name: "Arjun Patel",
-    teaches: "Machine Learning",
-    wants: "C++",
-  },
-];
+import { Users, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function RecommendedMatches() {
+  const navigate = useNavigate();
+
   return (
     <div className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-3xl font-bold text-white">
+            Recommended Matches
+          </h2>
 
-      <h2 className="text-3xl font-bold text-white">
-        Recommended Matches
-      </h2>
+          <p className="mt-2 text-slate-300">
+            Discover learners whose skills and interests align with yours.
+          </p>
+        </div>
 
-      <p className="mt-2 text-slate-300">
-        People you can connect with based on your interests.
-      </p>
-
-      <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-
-        {matches.map((user) => (
-          <div
-            key={user.id}
-            className="rounded-2xl border border-white/10 bg-white/5 p-6"
-          >
-            <div className="flex items-center gap-4">
-
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-500 text-xl font-bold text-white">
-                {user.name.charAt(0)}
-              </div>
-
-              <div>
-                <h3 className="text-xl font-semibold text-white">
-                  {user.name}
-                </h3>
-
-                <p className="text-slate-400">
-                  Teaches: {user.teaches}
-                </p>
-
-                <p className="text-slate-400">
-                  Wants: {user.wants}
-                </p>
-              </div>
-
-            </div>
-
-            <Button className="mt-6 w-full bg-blue-500 hover:bg-blue-600">
-              View Profile
-            </Button>
-
-          </div>
-        ))}
-
+        <div className="rounded-2xl bg-blue-500/20 p-4">
+          <Users className="text-blue-400" size={32} />
+        </div>
       </div>
 
+      <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+        <h3 className="text-2xl font-semibold text-white">
+          Find Your Next Learning Partner
+        </h3>
+
+        <p className="mt-3 text-slate-300 leading-relaxed">
+          Our recommendation system analyzes your teaching skills and learning
+          goals to suggest compatible learners. Explore personalized matches and
+          start collaborating.
+        </p>
+
+        <Button
+          onClick={() => navigate("/ai-matches")}
+          className="mt-8 bg-blue-500 hover:bg-blue-600"
+        >
+          Explore AI Matches
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+      </div>
     </div>
   );
 }

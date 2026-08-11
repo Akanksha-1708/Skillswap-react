@@ -23,3 +23,13 @@ dist-ssr
 *.sln
 *.sw?
 .env
+# Python virtual environment
+venv/
+ai-backend/venv/
+
+# Firebase Admin credentials
+ai-backend/serviceAccountKey.json
+
+# Python cache
+__pycache__/
+*.pyc

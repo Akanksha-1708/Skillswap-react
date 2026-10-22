@@ -37,11 +37,13 @@
 //
 // without requiring a browser refresh.
 
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { db } from "@/firebase/firebase";
+import { toast } from "react-toastify";
+import { getErrorMessage } from "@/utils/firebaseErrors";
 
 import {
   doc,
@@ -54,27 +56,31 @@ function ProfileForm({mode}) {
   const navigate = useNavigate();
   const { currentUser,userProfile,refreshUserProfile } = useAuth();
 
-  const [profile, setProfile] = useState({
-    fullName: "",
-    bio: "",
-    teachingSkills: "",
-    learningSkills: "",
-    experience: "",
-    availability: "",
-  });
+  // The initial form values are computed once, when the form first renders.
+  // In "edit" mode we start from the saved profile. This is safe because
+  // AuthProvider waits until the profile has been loaded before rendering the app,
+  // so userProfile is already available here. (No useEffect needed.)
+  const [profile, setProfile] = useState(() => {
+    if (mode === "edit" && userProfile) {
+      return {
+        fullName: userProfile.fullName || "",
+        bio: userProfile.bio || "",
+        teachingSkills: userProfile.teachingSkills?.join(", ") || "",
+        learningSkills: userProfile.learningSkills?.join(", ") || "",
+        experience: userProfile.experience || "",
+        availability: userProfile.availability || "",
+      };
+    }
 
-  useEffect(() => {
-  if (mode === "edit" && userProfile) {
-    setProfile({
-      fullName: userProfile.fullName || "",
-      bio: userProfile.bio || "",
-      teachingSkills: userProfile.teachingSkills?.join(", ") || "",
-      learningSkills: userProfile.learningSkills?.join(", ") || "",
-      experience: userProfile.experience || "",
-      availability: userProfile.availability || "",
-    });
-  }
-}, [mode, userProfile]);
+    return {
+      fullName: "",
+      bio: "",
+      teachingSkills: "",
+      learningSkills: "",
+      experience: "",
+      availability: "",
+    };
+  });
 
   const handleChange = (e) => {
     setProfile({
@@ -121,12 +127,12 @@ function ProfileForm({mode}) {
         );
       }
       await refreshUserProfile(currentUser); // Refresh the user profile in AuthContext after saving to Firestore
-      alert("Profile Saved!");
+      toast.success("Profile saved!");
 
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      toast.error(getErrorMessage(error));
     }
   };
 

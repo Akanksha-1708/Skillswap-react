@@ -22,8 +22,17 @@ import SentRequests from "@/pages/SentRequests/SentRequests";
 import LearningWorkspace from "@/pages/LearningWorkspace/LearningWorkspace";
 import AIMatches from "./pages/AIMatches/AIMatches";
 import SettingsPage from "./pages/Settings/Settings";
+import NotFound from "./pages/NotFound/NotFound";
+import { ToastContainer } from "react-toastify";
 function App() {
   return (
+    <>
+    {/* Renders the toast pop-ups (react-toastify). One container for the whole app. */}
+    <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      theme="dark"
+    />
     <BrowserRouter>
       <Routes>
 
@@ -115,10 +124,14 @@ function App() {
             <AIMatches/>
           </ProtectedRoute>
         }/>
-        
+
+        {/* Any URL that matches none of the routes above shows the 404 page */}
+        <Route path="*" element={<NotFound />} />
+
         </Route>
       </Routes>
     </BrowserRouter>
+    </>
   );
 }
 

@@ -16,17 +16,13 @@ function ChatButton({ toUserId }) {
       where("participants", "array-contains", currentUser.uid)
     );
     const snapshot = await getDocs(q);
-    let conversation = null;
-    snapshot.forEach((doc) => {
-      const data = doc.data();
+    // Is there already a conversation between these two users?
+    const alreadyExists = snapshot.docs.some((doc) =>
+      doc.data().participants.includes(toUserId)
+    );
 
-      if (data.participants.includes(toUserId)) {
-        conversation = doc.id;
-      }
-    });
-
-    if (!conversation) {
-      const docRef = await addDoc(
+    if (!alreadyExists) {
+      await addDoc(
         collection(db, "conversations"),
         {
           participants: [
@@ -38,7 +34,6 @@ function ChatButton({ toUserId }) {
           updatedAt: serverTimestamp(),
         }
       );
-      conversation = docRef.id;
     }
     navigate(`/chat/${toUserId}`);
   };

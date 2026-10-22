@@ -12,6 +12,7 @@ import {
     onSnapshot,
 } from "firebase/firestore";
 import { useAuth } from "@/context/AuthContext";
+import { toast } from "react-toastify";
 
 function SharedNotes({ workspaceId }) {
     
@@ -68,7 +69,7 @@ const saveNotes = async () => {
             message: "created shared notes",
         });
     }
-    alert("Notes Saved!");
+    toast.success("Notes saved!");
 };
     return (
         <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl">

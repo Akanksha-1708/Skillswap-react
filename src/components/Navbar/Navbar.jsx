@@ -11,6 +11,7 @@ import { NavLink } from "react-router-dom";
 import NotificationBell from "@/components/Notifications/NotificationBell";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
+import { toast } from "react-toastify";
 
 function Navbar() {
   const { currentUser, logout } = useAuth();
@@ -23,6 +24,7 @@ function Navbar() {
       setIsMenuOpen(false);
     } catch (error) {
       console.error(error);
+      toast.error("Could not log out. Please try again.");
     }
   };
 

@@ -3,7 +3,6 @@
 
 import {motion} from "framer-motion";
 import {Button} from "@/components/ui/button";
-import {ArrowRight} from "lucide-react";
 import StatsCard from "../Stats/StatsCard";
 import {Users,BookOpen,Repeat,} from "lucide-react";
 

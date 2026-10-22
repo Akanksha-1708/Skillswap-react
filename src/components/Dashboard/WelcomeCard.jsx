@@ -8,15 +8,12 @@ function WelcomeCard() {
 
   const hour = new Date().getHours();
 
-  let greeting = "Welcome";
-
-  if (hour < 12) {
-    greeting = "Good Morning";
-  } else if (hour < 17) {
-    greeting = "Good Afternoon";
-  } else {
-    greeting = "Good Evening";
-  }
+  const greeting =
+    hour < 12
+      ? "Good Morning"
+      : hour < 17
+      ? "Good Afternoon"
+      : "Good Evening";
 
   return (
     <motion.div

@@ -34,6 +34,7 @@ import {doc,getDoc,collection,getDocs,query,where} from "firebase/firestore";
 function PublicProfile() {
 
     const { currentUser } = useAuth();
+    const currentUid = currentUser?.uid;
     const { userId } = useParams();
     const [user, setUser] = useState(null);
     const [reviews, setReviews] = useState([]);
@@ -56,7 +57,7 @@ function PublicProfile() {
 
         const requestQuery = query(
         collection(db, "swapRequests"),
-        where("fromUser", "==", currentUser.uid),
+        where("fromUser", "==", currentUid),
         where("toUser", "==", userId),
         where("status", "==", "accepted")
         );
@@ -72,7 +73,7 @@ function PublicProfile() {
         setReviews(reviewList);            
         };
         fetchUser();
-    }, [userId]);
+    }, [userId, currentUid]);
 
     if (!user) {
     return (

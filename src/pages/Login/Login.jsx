@@ -9,6 +9,8 @@ import { motion } from "framer-motion";
 import {auth } from "@/firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { getErrorMessage } from "@/utils/firebaseErrors";
 
 
 function Login() {
@@ -28,17 +30,15 @@ const handleChange = (e) => {
 
 const handleLogin=async()=>{
   try{
-    console.log("Email:", `"${formData.email}"`);
-    console.log("Password:", `"${formData.password}"`);
     await signInWithEmailAndPassword(
       auth,
       formData.email.trim(),
       formData.password
     );
-    alert("Login Successful !");
+    toast.success("Welcome back!");
     navigate("/");
   }catch(error){
-    alert(error.message);
+    toast.error(getErrorMessage(error));
   }
 };
 

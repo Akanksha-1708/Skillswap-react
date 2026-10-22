@@ -40,6 +40,8 @@ import {
     serverTimestamp,
 } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
+import { toast } from "react-toastify";
+import { getErrorMessage } from "@/utils/firebaseErrors";
 
 function RequestCard({ request, onStatusChange }) {
 
@@ -73,8 +75,6 @@ function RequestCard({ request, onStatusChange }) {
 
             if (status === "accepted") {
 
-                console.log(request);
-
                 const workspaceRef = await addDoc(
                     collection(db, "learningWorkspaces"),
                     {
@@ -97,8 +97,6 @@ function RequestCard({ request, onStatusChange }) {
                     }
                 );
 
-                console.log("Workspace Created:", workspaceRef.id);
-
                 await updateDoc(
                     doc(db, "swapRequests", request.id),
                     {
@@ -118,11 +116,18 @@ function RequestCard({ request, onStatusChange }) {
 
             }
 
+            toast.success(
+                status === "accepted"
+                    ? "Request accepted. A learning workspace has been created."
+                    : "Request rejected."
+            );
+
             onStatusChange(request.id);
 
         } catch (error) {
 
-            console.error("ERROR:", error);
+            console.error("Failed to update request:", error);
+            toast.error(getErrorMessage(error));
 
         }
 

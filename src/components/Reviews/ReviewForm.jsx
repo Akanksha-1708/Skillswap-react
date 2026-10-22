@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import {useAuth} from "@/context/AuthContext";
 import {db} from "@/firebase/firebase";
 import {addDoc,collection,serverTimestamp,query,where,getDocs,} from "firebase/firestore";
+import { toast } from "react-toastify";
+import { getErrorMessage } from "@/utils/firebaseErrors";
 
 function ReviewForm({toUserId}) {
   const [rating, setRating] = useState("");
@@ -19,7 +21,7 @@ function ReviewForm({toUserId}) {
 
   const handleSubmit=async()=>{
     if(!rating||!comment){
-        alert("Please complete the review.");
+        toast.warn("Please select a rating and write a comment.");
         return;
     }
     try{
@@ -30,7 +32,7 @@ function ReviewForm({toUserId}) {
         );
         const existingReview=await getDocs(reviewQuery);
         if(!existingReview.empty){
-            alert("You have already reviewed this user.");
+            toast.info("You have already reviewed this user.");
             return;
         }
         await addDoc(
@@ -43,12 +45,12 @@ function ReviewForm({toUserId}) {
                 createdAt:serverTimestamp(),
             }
         );
-        alert("Review Submitted!");
+        toast.success("Review submitted!");
         setRating("");
         setComment("");
     }catch(error){
         console.error(error);
-        alert(error.message);
+        toast.error(getErrorMessage(error));
     }
   };
 

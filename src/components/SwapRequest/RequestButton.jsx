@@ -9,6 +9,8 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { db } from "@/firebase/firebase";
+import { toast } from "react-toastify";
+import { getErrorMessage } from "@/utils/firebaseErrors";
 
 import {
     addDoc,
@@ -26,7 +28,6 @@ function RequestButton({ receiver }) {
     const { currentUser, userProfile } = useAuth();
 
     const handleRequest = async () => {
-        console.log("Receiver:", receiver);
         try {
 
             const q = query(
@@ -39,7 +40,7 @@ function RequestButton({ receiver }) {
             const existingRequest = await getDocs(q);
 
             if (!existingRequest.empty) {
-                alert("You have already sent a request.");
+                toast.info("You have already sent a request to this user.");
                 return;
             }
 
@@ -90,11 +91,12 @@ function RequestButton({ receiver }) {
                 }
             );
 
-            alert("Request Sent!");
+            toast.success("Request sent!");
 
         } catch (error) {
 
             console.error(error);
+            toast.error(getErrorMessage(error));
 
         }
 

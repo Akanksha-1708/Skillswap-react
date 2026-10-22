@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { getErrorMessage } from "@/utils/firebaseErrors";
 
 function Signup() {
 const [showPassword, setShowPassword] = useState(false);
@@ -28,21 +30,18 @@ const handleChange = (e) => {
 const navigate = useNavigate();
 const handleSignup = async () => {
   try {
-    console.log(formData);
-    const userCredential = await createUserWithEmailAndPassword(
+    await createUserWithEmailAndPassword(
       auth,
-      formData.email,
+      formData.email.trim(),
       formData.password
     );
 
-    console.log(userCredential.user);
-
-    alert("Account Created Successfully!");
+    toast.success("Account created! Let's set up your profile.");
 
     navigate("/profile-setup");
 
   } catch (error) {
-    alert(error.message);
+    toast.error(getErrorMessage(error));
   }
 };
 

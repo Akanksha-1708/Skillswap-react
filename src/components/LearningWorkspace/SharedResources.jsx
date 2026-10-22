@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { addActivity } from "@/utils/activityLogger";
 import { useAuth } from "@/context/AuthContext";
+import { toast } from "react-toastify";
 
 function SharedResources({ workspaceId }) {
 
@@ -35,7 +36,7 @@ function SharedResources({ workspaceId }) {
     }, [workspaceId]);
     const addResource = async () => {
         if (!title.trim() || !link.trim()) {
-            alert("Please fill all fields.");
+            toast.warn("Please enter both a title and a link.");
             return;
         }
         await addDoc(

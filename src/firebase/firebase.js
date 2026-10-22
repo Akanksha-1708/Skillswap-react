@@ -1,9 +1,6 @@
-
-
-// This imports Firebase's function that starts app : Hey Firebase, I'm connecting my React application to my Firebase project."
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import {getFirestore} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -15,11 +12,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-// This actually establishes the connection, without ths react does not know my firebase project exists
-export const auth = getAuth(app);
-// This creates the Authentication object.
-export const db=getFirestore(app);
 
-// app->connects react app to firebase
-// auth->talks to firebase authentication
-// db->talks to cloud firestore
+export const auth = getAuth(app);
+export const db = getFirestore(app);

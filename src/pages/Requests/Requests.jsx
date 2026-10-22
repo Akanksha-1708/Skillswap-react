@@ -32,44 +32,40 @@ function Requests() {
     const [requests, setRequests] = useState([]);
     const { currentUser } = useAuth();
 
-const fetchRequests = async () => {
-
-    console.log("==============");
-    console.log("Current User UID:", currentUser.uid);
-
-    const q = query(
-        collection(db, "swapRequests"),
-        where("toUser", "==", currentUser.uid),
-        where("status", "==", "pending")
-    );
-
-    const snapshot = await getDocs(q);
-
-    console.log("Documents Found:", snapshot.size);
-
-    snapshot.docs.forEach(doc => {
-        console.log(doc.id, doc.data());
-    });
-
-    const requestList = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-    }));
-
-    setRequests(requestList);
-};
-
 const handleStatusChange = (requestId) => {
     setRequests((prevRequests) =>
         prevRequests.filter((request) => request.id !== requestId)
     );
 };
+
+    // The fetch lives inside the effect so React can see exactly what it depends on.
+    // "ignore" stops a late Firestore reply from updating an unmounted page.
     useEffect(()=>{
-        if(currentUser){
-            fetchRequests();
-        }
+        if(!currentUser) return;
+        let ignore=false;
+
+        const fetchRequests = async () => {
+            const q = query(
+                collection(db, "swapRequests"),
+                where("toUser", "==", currentUser.uid),
+                where("status", "==", "pending")
+            );
+
+            const snapshot = await getDocs(q);
+            if(ignore) return;
+
+            const requestList = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            setRequests(requestList);
+        };
+
+        fetchRequests();
+        return ()=>{ignore=true;};
     },[currentUser]);
-    
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#081E4C] via-[#233E88] to-[#475793] px-6 py-10">
 

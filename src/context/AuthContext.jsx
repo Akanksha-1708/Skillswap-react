@@ -81,8 +81,14 @@ export function AuthProvider({children}){
         setUserProfile(null);
         await signOut(auth);
     }
+    // While Firebase is still checking whether someone is logged in,
+    // show a loader instead of a blank white screen.
     if (loading) {
-    return null;
+    return (
+        <div className="flex min-h-screen items-center justify-center bg-[#081E4C]">
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-blue-400 border-t-transparent" />
+        </div>
+    );
     }
 
     return(

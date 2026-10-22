@@ -57,19 +57,23 @@ function BrowseSkills(){
     const { currentUser } = useAuth();
     const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const fetchUsers=async()=>{
-        const snapshot=await getDocs(
-            collection(db,"users")
-        );
-        const usersList=snapshot.docs.map(doc=>({
-            id:doc.id,
-            ...doc.data(),
-        }));
-        console.log(usersList);
-        setUsers(usersList);
-    };
+    // The fetch function lives inside the effect, so the effect is self-contained.
+    // "ignore" prevents a state update if the component unmounts before Firestore replies.
     useEffect(()=>{
+        let ignore=false;
+        const fetchUsers=async()=>{
+            const snapshot=await getDocs(
+                collection(db,"users")
+            );
+            if(ignore) return;
+            const usersList=snapshot.docs.map(doc=>({
+                id:doc.id,
+                ...doc.data(),
+            }));
+            setUsers(usersList);
+        };
         fetchUsers();
+        return ()=>{ignore=true;};
     },[]);
 
     const filteredUsers = users.filter((user) => {

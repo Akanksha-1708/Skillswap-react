@@ -4,20 +4,22 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { auth,db } from "@/firebase/firebase";
 import { deleteUser } from "firebase/auth";
 import { deleteDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import { getErrorMessage } from "@/utils/firebaseErrors";
 function SettingsPage() {
 
   const navigate = useNavigate();
   const handleChangePassword=async()=>{
     try{
         if(!auth.currentUser?.email){
-            alert("No user is currently signed in.")
+            toast.error("No user is currently signed in.")
             return;
         }
         await sendPasswordResetEmail(auth,auth.currentUser.email);
-        alert(`Password reset email sent to ${auth.currentUser.email}. Please check inbox.`)
+        toast.success(`Password reset email sent to ${auth.currentUser.email}. Please check your inbox.`)
     }catch(error){
         console.error(error);
-        alert(error.message)
+        toast.error(getErrorMessage(error))
     }
   };
 
@@ -29,16 +31,16 @@ function SettingsPage() {
     try{
         const user=auth.currentUser
         if(!user){
-            alert("No authenticated user found.")
+            toast.error("No authenticated user found.")
             return;
         }
         await deleteDoc(doc(db,"users",user.uid))
         await deleteUser(user)
-        alert("Account deleted succesfully.")
+        toast.success("Account deleted successfully.")
         navigate("/")
     }catch(error){
         console.error(error)
-        alert(error.message)
+        toast.error(getErrorMessage(error))
     }
   };
 

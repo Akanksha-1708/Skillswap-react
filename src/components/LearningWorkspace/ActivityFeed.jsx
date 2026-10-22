@@ -23,8 +23,6 @@ function ActivityFeed({ workspaceId }) {
                 id: doc.id,
                 ...doc.data(),
             }));
-            console.log("Workspace:", workspaceId);
-            console.log(activityList);
             setActivities(activityList);
         });
         return () => unsubscribe();
